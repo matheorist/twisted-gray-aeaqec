@@ -25,17 +25,21 @@ python joint_optimize_q5.py
 python joint_target_optimize_q5.py
 python verify_integer_envelope.py
 python verify_inverse_region_q5.py
+python verify_inverse_budget_q5.py
 ```
 
-Each script prints `PASS` messages when its checks succeed. The witness-coverage script verifies exact (d_Z,d_X)=(3,3) at c=0,1,2,3,4 with K=10. The target-aware script also verifies the threshold 12 prefilter and prunes 34 of the 64 pairs in the 1..8 target grid before any matrix search.
+Each script prints `PASS` messages when its checks succeed. The witness-coverage script verifies exact (d_Z,d_X)=(3,3) at c=0,1,2,3,4 with K=10. The target-aware script also verifies the threshold 12 prefilter and prunes 34 of the 64 pairs in the 1..8 target grid before any matrix search. The inverse-budget script computes the exact minimum ebit count for every 1..4 target pair at K=9 and checks the separate-cost lower bound.
 
 ## Version
 
-The `v1.5.0` release contains the exact script versions used for the checks reported in the revised manuscript, including the five-point exact-distance witness-coverage segment, complete joint-optimization curve, target-aware search with the matrix-independent prefilter, and catalogue Pareto selection.
+The `v1.6.0` release contains the exact script versions used for the checks reported in the revised manuscript, including the five-point exact-distance witness-coverage segment, complete joint-optimization curve, target-aware search with the matrix-independent prefilter, exact inverse-budget table, and catalogue Pareto selection.
 
 ## License
 
 MIT License; see [LICENSE](LICENSE).
+
+
+
 
 
 
