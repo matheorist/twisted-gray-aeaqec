@@ -64,6 +64,26 @@ def minimum_budget(delta_z, delta_x, options, catalogue):
     return min(records) if records else (None, None)
 
 
+def target_boundary(K_target, budget, options, catalogue):
+    feasible = set()
+    for delta_x in range(1, N + 1):
+        for delta_z in range(1, N + 1):
+            for s, rho_one_line in catalogue:
+                rho = tuple(x - 1 for x in rho_one_line)
+                curve = frontier(s, rho, options, delta_z, delta_x)
+                if any(k >= K_target and c <= budget
+                       for c, k in curve.items()):
+                    feasible.add((delta_z, delta_x))
+                    break
+    return {
+        pair for pair in feasible
+        if not any(
+            (z >= pair[0] and x >= pair[1] and (z, x) != pair)
+            for z, x in feasible
+        )
+    }
+
+
 def main():
     options = constituent_options()
     catalogue = [(2, (1, 2)), (2, (2, 1)), (4, (1, 4, 3, 2))]
@@ -82,6 +102,15 @@ def main():
     for delta_x in range(1, N + 1):
         row = [table[(delta_z, delta_x)] for delta_z in range(1, N + 1)]
         print(f"delta_X={delta_x}: c_min(delta_Z=1..4)={row}")
+    boundary0 = target_boundary(9, 0, options, catalogue)
+    boundary1 = target_boundary(9, 1, options, catalogue)
+    boundary12 = target_boundary(9, 12, options, catalogue)
+    assert boundary0 == {(4, 2), (3, 3), (2, 4)}
+    assert boundary1 == {(4, 3), (3, 4)}
+    assert boundary12 == boundary1
+    print("K=9 boundary at cmax=0:", sorted(boundary0))
+    print("K=9 boundary at cmax=1:", sorted(boundary1))
+    print("K=9 boundary at cmax=12:", sorted(boundary12))
     lower = max(0, K_TARGET - 4 * N +
                 separate_cost(4) + separate_cost(3))
     assert lower == 1
@@ -100,3 +129,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
