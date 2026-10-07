@@ -10,7 +10,7 @@ Email: zyyctc@126.com
 
 ## Purpose
 
-These dependency-free Python scripts reproduce the finite-field matrix checks, two exact q=5, s=4 distance instances, a five-point exact-distance segment of the K=10 plateau, the joint order/profile optimization over the complete q=5,n=4 budget range, the target-aware distance-grid search, the certified fixed-ebit frontier, the integer-envelope checks, and the inverse distance--ebit--dimension table reported in the manuscript. They are verification scripts rather than a general-purpose coding library.
+These dependency-free Python scripts reproduce the finite-field matrix checks, two exact q=5, s=4 distance instances, a five-point exact-distance segment of the K=10 plateau, the joint order/profile optimization over the complete q=5,n=4 budget range, the target-aware distance-grid search, its matrix-independent separate-cost prefilter, the certified fixed-ebit frontier, the integer-envelope checks, and the inverse distance--ebit--dimension table reported in the manuscript. They are verification scripts rather than a general-purpose coding library.
 
 ## Requirements
 
@@ -27,15 +27,16 @@ python verify_integer_envelope.py
 python verify_inverse_region_q5.py
 ```
 
-Each script prints `PASS` messages when its checks succeed. The witness-coverage script verifies exact (d_Z,d_X)=(3,3) at c=0,1,2,3,4 with K=10.
+Each script prints `PASS` messages when its checks succeed. The witness-coverage script verifies exact (d_Z,d_X)=(3,3) at c=0,1,2,3,4 with K=10. The target-aware script also verifies the threshold 12 prefilter and prunes 34 of the 64 pairs in the 1..8 target grid before any matrix search.
 
 ## Version
 
-The `v1.4.0` release contains the exact script versions used for the checks reported in the revised manuscript, including the five-point exact-distance witness-coverage segment, complete joint-optimization curve, target-aware search, and catalogue Pareto selection.
+The `v1.5.0` release contains the exact script versions used for the checks reported in the revised manuscript, including the five-point exact-distance witness-coverage segment, complete joint-optimization curve, target-aware search with the matrix-independent prefilter, and catalogue Pareto selection.
 
 ## License
 
 MIT License; see [LICENSE](LICENSE).
+
 
 
 

@@ -23,6 +23,11 @@ def constituent_options():
     return out
 
 
+def separate_cost(delta, s=4):
+    """Unavoidable separate constituent-dimension cost T_s(delta)."""
+    return sum((delta + r - 1) // r - 1 for r in range(1, s + 1))
+
+
 def optimize(s, rho, options, delta_z, delta_x):
     """Return K_max over exact ebit counts c <= C_MAX for one record."""
     allowed = []
@@ -67,7 +72,22 @@ def main():
 
     expected = {1: 4, 2: 4, 3: 3, 4: 2}
     assert observed == expected, (observed, expected)
+
+    # Matrix-independent prefilter from Corollary cor:targetprefilter.
+    threshold = 4 * N + C_MAX - K_TARGET
+    wide_grid = range(1, 2 * N + 1)
+    pruned = [
+        (delta_z, delta_x)
+        for delta_z in wide_grid
+        for delta_x in wide_grid
+        if separate_cost(delta_z) + separate_cost(delta_x) > threshold
+    ]
+    assert (7, 2) in pruned
+    assert (4, 4) not in pruned
     print("max delta_Z at K>=10,c<=6:", observed)
+    print("prefilter threshold:", threshold)
+    print("prefilter pruned (1..8)^2 target pairs:", len(pruned))
+    print("PASS: matrix-independent target prefilter")
     print("PASS: target-aware q=5 order/profile optimization")
 
 
