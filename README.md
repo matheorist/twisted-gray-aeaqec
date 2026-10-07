@@ -10,7 +10,7 @@ Email: zyyctc@126.com
 
 ## Purpose
 
-These dependency-free Python scripts reproduce the finite-field matrix checks, two exact q=5, s=4 distance instances, the joint order/profile optimization, the certified fixed-ebit frontier, the integer-envelope checks, and the inverse distance--ebit--dimension table reported in the manuscript. They are verification scripts rather than a general-purpose coding library.
+These dependency-free Python scripts reproduce the finite-field matrix checks, two exact q=5, s=4 distance instances, the joint order/profile optimization over the complete q=5,n=4 budget range, the certified fixed-ebit frontier, the integer-envelope checks, and the inverse distance--ebit--dimension table reported in the manuscript. They are verification scripts rather than a general-purpose coding library.
 
 ## Requirements
 
@@ -29,7 +29,7 @@ Each script prints `PASS` messages when its checks succeed.
 
 ## Version
 
-The `v1.1.0` release contains the exact script versions used for the checks reported in the revised manuscript.
+The `v1.2.0` release contains the exact script versions used for the checks reported in the revised manuscript, including the complete joint-optimization curve and catalogue Pareto selection.
 
 ## License
 
