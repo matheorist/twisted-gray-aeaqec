@@ -30,7 +30,7 @@ Each script prints `PASS` messages when its checks succeed.
 
 ## Version
 
-The `v1.2.0` release contains the exact script versions used for the checks reported in the revised manuscript, including the complete joint-optimization curve and catalogue Pareto selection.
+The `v1.3.0` release contains the exact script versions used for the checks reported in the revised manuscript, including the complete joint-optimization curve, target-aware search, and catalogue Pareto selection.
 
 ## License
 
