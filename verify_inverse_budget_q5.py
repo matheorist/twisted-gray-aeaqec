@@ -1,8 +1,8 @@
 """Exact inverse ebit-budget check for the q=5 target catalogue.
 
 For each target pair, this script computes the smallest exact ebit count at
-which the catalogue reaches K >= 10.  It also checks the matrix-independent
-separate-cost lower bound from Corollary targetprefilter.
+which the catalogue reaches K >= 9. It also checks the matrix-independent
+separate-cost lower bound and the catalogue gate deficit.
 """
 
 N = 4
@@ -43,6 +43,16 @@ def frontier(s, rho, options, delta_z, delta_x):
     return {c: s * N - cost for c, cost in dp.items()}
 
 
+def catalogue_ceiling(delta_z, delta_x, options, catalogue):
+    ceilings = []
+    for s, rho_one_line in catalogue:
+        rho = tuple(x - 1 for x in rho_one_line)
+        curve = frontier(s, rho, options, delta_z, delta_x)
+        if curve:
+            ceilings.append(max(curve.values()))
+    return max(ceilings, default=None)
+
+
 def minimum_budget(delta_z, delta_x, options, catalogue):
     records = []
     for s, rho_one_line in catalogue:
@@ -78,13 +88,15 @@ def main():
     c43 = table[(4, 3)]
     c44 = table[(4, 4)]
     assert c43 == lower and c44 is None
+    gate_44 = catalogue_ceiling(4, 4, options, catalogue)
+    assert gate_44 == 8 and K_TARGET - gate_44 == 1
     print("matrix-independent lower bound for (4,3):", lower)
     print("catalogue minimum for (4,3):", c43)
     print("catalogue minimum for (4,4):", c44)
+    print("(4,4) catalogue ceiling:", gate_44)
+    print("(4,4) gate deficit:", K_TARGET - gate_44)
     print("PASS: exact inverse ebit-budget q=5 catalogue")
 
 
 if __name__ == "__main__":
     main()
-
-
