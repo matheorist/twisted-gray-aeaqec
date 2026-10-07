@@ -72,6 +72,32 @@ def main():
 
     expected = {1: 4, 2: 4, 3: 3, 4: 2}
     assert observed == expected, (observed, expected)
+    feasible = set()
+    for delta_x in range(1, N + 1):
+        for delta_z in range(1, N + 1):
+            best_k = max(
+                optimize(s, tuple(x - 1 for x in rho), options,
+                         delta_z, delta_x)
+                for s, rho in catalogue
+            )
+            if best_k >= K_TARGET:
+                feasible.add((delta_z, delta_x))
+
+    # Feasibility is downward closed in both certified distance targets.
+    for delta_z, delta_x in feasible:
+        for lower_z in range(1, delta_z + 1):
+            for lower_x in range(1, delta_x + 1):
+                assert (lower_z, lower_x) in feasible
+    boundary = {
+        pair for pair in feasible
+        if not any(
+            (z >= pair[0] and x >= pair[1] and (z, x) != pair)
+            for z, x in feasible
+        )
+    }
+    assert boundary == {(4, 2), (3, 3), (2, 4)}, boundary
+    print("feasible target pairs on 1..4 grid:", len(feasible))
+    print("target antichain boundary:", sorted(boundary))
 
     # Matrix-independent prefilter from Corollary cor:targetprefilter.
     threshold = 4 * N + C_MAX - K_TARGET
@@ -93,3 +119,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
