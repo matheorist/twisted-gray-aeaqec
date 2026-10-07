@@ -119,7 +119,7 @@ def first_relative_word(G, excluded, max_weight):
     return None
 
 
-def exact_pair(matrix, k, ell, target_t):
+def exact_pair(matrix, k, ell, target_t, max_weight=3):
     # C_i^perp=E_i are [4,4-k_i] RS codes.  D_i are GRS codes with
     # multiplier (1,1,1,2), giving the required t_i values.
     C, D = [], []
@@ -132,8 +132,8 @@ def exact_pair(matrix, k, ell, target_t):
     U = mp_generator(C, matrix)
     V = mp_generator(D, matrix)
     U_perp, V_perp = nullspace(U), nullspace(V)
-    z = first_relative_word(U_perp, V, 3)
-    x = first_relative_word(V_perp, U, 3)
+    z = first_relative_word(U_perp, V, max_weight)
+    x = first_relative_word(V_perp, U, max_weight)
     assert z is not None and x is not None
     return len([x for x in z if x]), len([x for x in x if x]), z, x
 
